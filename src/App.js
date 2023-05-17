@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+
+// Importamos el router de react-router-dom
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+// Importamos las páginas
+import {Login} from './pages/Login';
+import {Register} from './pages/Register';
+import Crud from './components/Crud';
+import {NotFoundPage} from './pages/NotFoundPage';
+
+// Importamos el componente ProtectedRoute
+import {ProtectedRoute} from './components/ProtectedRoute';
+
+// Importamos el provider y el hook useAuth
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="bg-white text-black flex text-white dark:bg-gray-800">
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/crud" element={<ProtectedRoute> <Crud /> </ProtectedRoute>} />
+            <Route path="/registro" element={<Register />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </AuthProvider>
+      </div>
+    </Router>
   );
 }
 
