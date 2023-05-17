@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Swal from "sweetalert2";
-
+import loginimage from "../assets/images/mochila.png"
 
 export function Login() {
   const [user, setUser] = useState({
@@ -10,22 +10,20 @@ export function Login() {
     password: "",
   });
   const { login, loginWithGoogle, resetPassword } = useAuth();
-  const [setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
     try {
       await login(user.email, user.password);
-      navigate("/perfil");
+      navigate("/menu");
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: setError(error.message)
-      })
+            icon: 'error',
+            title: '¡Algo no esta bien!',
+            text: 'Revisa el formulario y vuelve a intentar',
+            timer: 1500
+          })
     }
   };
 
@@ -35,35 +33,41 @@ export function Login() {
   const handleGoogleSignin = async () => {
     try {
       await loginWithGoogle();
-      navigate("/perfil");
+      navigate("/menu");
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: setError(error.message)
-      })
+            icon: 'error',
+            title: '¡Algo no esta bien!',
+            text: 'Revisa el formulario y vuelve a intentar',
+            timer: 2500
+          })
     }
   };
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
-    if (!user.email) return setError("Escriba un correo para restablecer su contraseña");
+    if (!user.email) return Swal.fire({
+      icon: 'error',
+      title: '¡Algo no esta bien!',
+      text: 'Escriba un correo para restablecer su contraseña'
+    });
     try {
       await resetPassword(user.email);
-      setError('Hemos enviado un correo para que resetee su contraseña')
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: setError(error.message)
-      })
+            icon: 'error',
+            title: '¡Algo no esta bien!',
+            text: 'Hemos enviado un correo para que resetee su contraseña',
+            timer: 2500
+          })
     }
   };
 
   return (
-    <div className="w-full max-w-2xl m-auto pt-[15%] h-screen">
+    <div className="h-max-w-screen-2xl max-w-screen-2xl m-auto py-[5%] px-[15%]">
+      <center>
+      <img src={loginimage} alt="mochila-emergencia" className="w-[25%] py-10"/>
+      </center>
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
@@ -71,7 +75,7 @@ export function Login() {
         <div className="mb-4">
           <label
             htmlFor="email"
-            className="block text-violet-900 text-sm font-bold mb-2"
+            className="block text-gray-700 text-sm font-bold mb-2"
           >
             Correo Electrónico
           </label>
@@ -81,13 +85,13 @@ export function Login() {
             id="email"
             onChange={handleChange}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="mail@vocesexpertas.com"
+            placeholder="mail@google.com"
           />
         </div>
         <div className="mb-4">
           <label
             htmlFor="password"
-            className="block text-violet-900 text-sm font-bold mb-2"
+            className="block text-gray-700 text-sm font-bold mb-2"
           >
             Contraseña
           </label>
@@ -103,13 +107,13 @@ export function Login() {
 
         <div className="flex items-center justify-between">
           <button
-            className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
           >
             Ingresar
           </button>
           <a
-            className=" ml-2 inline-block align-baseline font-bold text-sm text-violet-900 hover:text-violet-500"
+            className=" ml-2 inline-block align-baseline font-bold text-sm text-gray-900 hover:text-gray-500"
             href="#!"
             onClick={handleResetPassword}
           >
@@ -119,13 +123,13 @@ export function Login() {
       </form>
       <button
         onClick={handleGoogleSignin}
-        className="bg-violet-500 hover:violet-700 text-white font-bold shadow rounded border-2 border-violet-500 py-2 px-4 w-full"
+        className="bg-gray-500 hover:gray-700 text-white font-bold shadow rounded border-2 border-gray-500 py-2 px-4 w-full"
       >
         Ingresa con Google
       </button>
-      <p className="my-4 text-sm text-violet-900 flex justify-between px-3 dark:text-slate-100">
+      <p className="my-4 text-sm text-gray-900 flex justify-between px-3 dark:text-slate-100">
         ¿No tienes una cuenta?
-        <Link to="/registro" className="text-violet-900 hover:text-violet-500 dark:text-slate-100 hover:text-slate-300">
+        <Link to="/registro" className="text-gray-900 hover:text-gray-500 dark:text-slate-100 hover:text-slate-300">
           Regístrate
         </Link>
       </p>

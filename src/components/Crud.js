@@ -45,8 +45,8 @@ const Crud = ({ onLogout }) => {
 
   return (
     <div>
-      <h1>CRUD con React y Firebase</h1>
-      <p>Bienvenido, {user.email}!</p>
+      <h1>Inventario de Mochila</h1>
+      <p>Mochila de {user.displayName || user.email}!</p>
       <button onClick={onLogout}>Cerrar sesión</button>
       <input type="text" value={newItem} onChange={handleInputChange} />
       <button onClick={handleAddItem}>Agregar</button>
