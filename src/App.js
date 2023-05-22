@@ -8,7 +8,7 @@ import {Login} from './pages/Login';
 import {Register} from './pages/Register';
 import {Menu} from './pages/Menu';
 import {NotFoundPage} from './pages/NotFoundPage';
-import {Inventario} from './pages/Inventario';
+import Inventario from './pages/Inventario';
 
 // Importamos el componente ProtectedRoute
 import {ProtectedRoute} from './components/ProtectedRoute';
